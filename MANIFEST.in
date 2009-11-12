@@ -1,0 +1,3 @@
+include annikki/config/deployment.ini_tmpl
+recursive-include annikki/public *
+recursive-include annikki/templates *
