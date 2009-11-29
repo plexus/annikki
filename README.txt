@@ -1,5 +1,10 @@
-This file is for you to describe the annikki application. Typically
-you would include information such as the information below:
+Annikki is a logbook for your Anki, the spaced repetition software.
+
+Annikki consists of two parts : one part is the website Annikki.org where you can find how well you and others are doing.
+
+A second part is the Annikki plugin for Anki. This little plugin will submit all cards you study to Annikki.
+
+Both parts are still in early development.
 
 Installation and Setup
 ======================
