@@ -17,6 +17,8 @@ from authkit.authorize.pylons_adaptors import authorize
 import json
 from urllib import unquote
 
+from decorator import decorator
+
 import logging
 log = logging.getLogger(__name__)
 
@@ -35,21 +37,20 @@ class BaseController(WSGIController):
 
 UserAuth = ValidAuthKitUser()
 
-def api_call(target):
-    target = authorize(UserAuth)(target)
-
-    def json_load_dump(self):
+def serialize_json(self, f):
         body = unquote(request.body)
         if body[-1:] == "=":
             body = body[:-1]
-
         try:
             data = json.loads(body)
-            return json.dumps(target(self, data))
-
+            return json.dumps(f(self, data))
         except ValueError, e:
             log.debug(e)
             log.debug(body)
             abort(400, comment="The request body is not valid JSON")
 
-    return json_load_dump
+def api_call(f):
+    f1 = lambda s: serialize_json(s, f)
+    f2 = authorize(UserAuth)(f1)
+    return f2
+
