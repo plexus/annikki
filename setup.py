@@ -9,8 +9,8 @@ except ImportError:
 
 setup(
     name='annikki',
-    version='0.1',
-    description=u'Annikki (暗日記) is an on-line diary for Anki."
+    version='0.1.1',
+    description=u'Annikki (暗日記) is an on-line diary for Anki.',
     author=u'Arne Brasseur',
     author_email=u'arne@arnebrasseur.net',
     url=u'http://www.annikki.org',
@@ -38,5 +38,8 @@ setup(
 
     [paste.app_install]
     main = pylons.util:PylonsInstaller
+
+    [authkit.method]
+    json = annikki.lib.authkitx:make_json_auth_handler
     """,
 )

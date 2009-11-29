@@ -2,11 +2,13 @@ from annikki import model
 
 from authkit.users.sqlalchemy_driver import UsersFromDatabase as AuthKitUsersFromDatabase
 from paste.util.import_string import eval_import
+from pylons.controllers.util import Request
 
-
-def remote_user(request):
-    name = request.environ['REMOTE_USER']
+def remote_user(self):
+    name = self.environ['REMOTE_USER']
     return model.meta.Session.query(model.User).filter_by(username=name).first()
+
+Request.remote_user_obj = remote_user
 
 class UsersFromDatabase(AuthKitUsersFromDatabase):
     def __init__(self, model, encrypt=None):

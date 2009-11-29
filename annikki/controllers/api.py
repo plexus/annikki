@@ -1,4 +1,5 @@
 import logging
+from pprint import pprint
 
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
@@ -9,6 +10,7 @@ from annikki.lib import remote_user
 from annikki.lib.base import BaseController, render, api_call
 
 from annikki import model
+
 
 log = logging.getLogger(__name__)
 
@@ -34,3 +36,13 @@ class ApiController(BaseController):
 
         return {"msg":"Added studylog"}
         
+    @api_call
+    def test(self, data):
+        print("/api/test")
+        user = request.remote_user_obj()
+
+        pprint(data)
+        pprint(user)
+        pprint(request.remote_user())
+        print()
+        return {"msg": "test called"}

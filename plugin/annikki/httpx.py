@@ -32,8 +32,13 @@ class ClientError(HTTPError):
 class ServerError(HTTPError):
     pass
 
+class Unauthorized(ClientError):
+    pass
+
 def http_error(code, body):
-    if code >= 300 and code < 400:
+    if code == 401:
+        return Unauthorized(code, body)
+    elif code >= 300 and code < 400:
         return RedirectError(code, body)
     elif code >= 400 and code < 500:
         return ClientError(code, body)

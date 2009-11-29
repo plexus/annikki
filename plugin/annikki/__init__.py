@@ -14,10 +14,10 @@ from anki.deck import Deck
 
 from annikki.httpx import HTTPClient
 
-USER='plexus'
-PWD ='plexuspass'
+USER='foo'
+PWD ='bar'
 HOST='localhost'
-PORT=8080
+PORT=5000
 
 class AnnikkiPlugin:
     def __init__(self):
@@ -54,7 +54,7 @@ class AnnikkiClient(HTTPClient):
             raise err
 
     def initialized(self):
-        print self.post('/', {"msg": "initialized"})
+        print self.post('/api/test', {"msg": "initialized"})
 
     def marshal(self, data):
         data["user"] = self.user

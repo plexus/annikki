@@ -39,8 +39,8 @@ UserAuth = ValidAuthKitUser()
 
 def serialize_json(self, f):
         body = unquote(request.body)
-        if body[-1:] == "=":
-            body = body[:-1]
+        #if body[-1:] == "=":
+        #    body = body[:-1]
         try:
             data = json.loads(body)
             return json.dumps(f(self, data))
