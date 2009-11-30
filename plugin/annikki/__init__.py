@@ -8,28 +8,46 @@ except ImportError:
 
 import simplejson as json
 
-from ankiqt.ui.main import AnkiQt
+from PyQt4 import QtGui, QtCore
+
 from anki.hooks import wrap, addHook
 from anki.deck import Deck
 
-from annikki.httpx import HTTPClient
+import ankiqt
+from ankiqt.ui.main import AnkiQt
+from ankiqt import mw
+
+from httpx import HTTPClient
+import gui
+
 
 USER='foo'
 PWD ='bar'
 HOST='localhost'
 PORT=5000
 
-class AnnikkiPlugin:
+class AnnikkiPlugin(object):
     def __init__(self):
-        # ankiqt.ui.main.AnkiQt#moveToState
-        def moveToState(ankiqt, state):
-            #print "moveToState", state
+        def moveToState(ankiqt, state): # ankiqt.ui.main.AnkiQt
             if state == "studyScreen" or state == "deckFinished":
                 self.api.studied(ankiqt.deck.cardsInLastSession(), ankiqt.deck.name())
 
         AnkiQt.moveToState = wrap(AnkiQt.moveToState, moveToState, "before")
-        print "Annikki support initialized"
         self.api = AnnikkiClient()
+        self.setup_ui()
+
+    def setup_ui(self):
+        self.actionConfigure = QtGui.QAction(mw)
+        self.actionConfigure.setObjectName("configureAnnikki")
+        self.actionConfigure.setText("&Annikki Preferences")
+        mw.mainWin.menu_Settings.addAction(self.actionConfigure)
+        mw.connect(self.actionConfigure, QtCore.SIGNAL("triggered()"), self.show_config_dialog)
+
+    def show_config_dialog(self):
+        if 'config_dialog' in self.__dict__:
+            self.config_dialog.show()
+        else:
+            self.config_dialog = gui.ConfigDialog()
 
 
 class AnnikkiClient(HTTPClient):
@@ -54,7 +72,8 @@ class AnnikkiClient(HTTPClient):
             raise err
 
     def initialized(self):
-        print self.post('/api/test', {"msg": "initialized"})
+        pass
+        #print self.post('/api/test', {"msg": "initialized"})
 
     def marshal(self, data):
         data["user"] = self.user
