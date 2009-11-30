@@ -1,9 +1,11 @@
 """\
 """
+import logging, cStringIO
+log = logging.getLogger(__name__)
 
 from pprint import pprint
 
-from paste.httpexceptions import HTTPUnauthorized, HTTPBadRequest
+from paste.httpexceptions import HTTPBadRequest
 from paste.httpheaders import *
 from authkit.authenticate.multi import MultiHandler, status_checker
 from authkit.authenticate import get_template, valid_password, \
@@ -16,32 +18,25 @@ import simplejson as json
 
 class JsonAuthenticator(object):
     """
-    implements authentication through json
     """
     type = 'json'
     def __init__(self,authfunc):
         self.authfunc = authfunc
 
     def authenticate(self, environ):
-        pprint(environ)
-        #return HTTPUnauthorized()
-
         try:
-            if environ['wsgi.input'].getvalue:
+            try:
                 body = environ['wsgi.input'].getvalue()
-            else:
-                pos = environ['wsgi.input'].tell()
-                environ['wsgi.input'].seek(0)
+            except AttributeError:
                 body = environ['wsgi.input'].read()
-                environ['wsgi.input'].seek(pos)
             data = json.loads(body)
+            environ['wsgi.input']=cStringIO.StringIO(body)
         except ValueError:
             return HTTPBadRequest()
         username, password = data['user'], data['pwd']
         if username and password:
             if self.authfunc(environ, username, password):
                 return username
-        return HTTPUnauthorized()
 
     __call__ = authenticate
 
@@ -124,13 +119,24 @@ def make_json_auth_handler(
         global_conf=None,
         prefix='authkit.json', 
     )
-    app = MultiHandler(app)
-    app.add_method(
-        'json', 
-        JsonAuthHandler, 
-        auth_handler_params['authfunc']
-    )
-    app.add_checker('json', status_checker)
+    #app = MultiHandler(app)
+
+    #def test_content_type(environ, status, headers):
+    #    print repr(headers)
+    #    for (key,val) in headers:
+    #        if key.lower() == 'content-type':
+    #            if val.lower() == "application/json" or val.lower() == 'application/jsonrequest':
+    #                log.debug("Status checker returns True")
+    #                return True
+    #    log.debug("Status checker returns False")
+    #    return False
+
+    #app.add_method(
+    #    'json', 
+    #    JsonAuthHandler, 
+    #    auth_handler_params['authfunc']
+    #)
+    #app.add_checker('json', test_content_type)
     app = JsonUserSetter(
         app,
         user_setter_params['authfunc'],

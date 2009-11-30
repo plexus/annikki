@@ -7,20 +7,20 @@ import ankiqt
 from ankiqt import mw
 
 class ConfigDialog(QDialog):
-    def __init__(self):
+    def __init__(self, config):
         QDialog.__init__(self)
         self.window = uic.Ui_ConfigAnnikkiDialog()
         self.window.setupUi(self)
-        self.config = mw.config
-        if self.config.has_key('annikki.username'):
-            self.window.usernameEdit.setText(self.config['annikki.username'])
-        if self.config.has_key('annikki.password'):
-            self.window.passwordEdit.setText(self.config['annikki.password'])
+        self.config = config
+        if self.config.username:
+            self.window.usernameEdit.setText(self.config.username)
+        if self.config.password:
+            self.window.passwordEdit.setText(self.config.password)
         self.show()
 
     def accept(self):
-        self.config['annikki.username'] = self.window.usernameEdit.text()
-        self.config['annikki.password'] = self.window.passwordEdit.text()
+        self.config.username = str(self.window.usernameEdit.text())
+        self.config.password = str(self.window.passwordEdit.text())
         self.config.save()
         self.done(0)
 

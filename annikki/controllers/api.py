@@ -27,12 +27,15 @@ class ApiController(BaseController):
     def studylog(self, data):
         user = remote_user(request)
 
-        if data['deck'] and data['count']:
-            sl = model.StudyLog(user, data['deck'], data['count'], func.now())
-            model.meta.Session.add(sl)
-            model.meta.Session.commit()
-        else:
-            abort(400, "'studylog' requires parameters 'deck' and 'count'")
+        if data['deck'] and data['cards']:
+            print data['deck']
+            pprint(data['cards'])
+
+        #    sl = model.StudyLog(user, data['deck'], data['count'], func.now())
+        #    model.meta.Session.add(sl)
+        #    model.meta.Session.commit()
+        #else:
+        #    abort(400, "'studylog' requires parameters 'deck' and 'count'")
 
         return {"msg":"Added studylog"}
         
@@ -43,6 +46,6 @@ class ApiController(BaseController):
 
         pprint(data)
         pprint(user)
-        pprint(request.remote_user())
+        pprint(request.remote_user)
         print()
         return {"msg": "test called"}

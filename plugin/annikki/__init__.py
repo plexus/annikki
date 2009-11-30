@@ -1,3 +1,10 @@
+# -*- encoding : utf-8 -*-
+#
+# Annikki : log your Anki activity on Annikki.org
+# Author : Arne Brasseur <arne@arnebrasseur.net>
+
+VERSION='0.1.0'
+
 import time
 
 try:
@@ -17,24 +24,41 @@ import ankiqt
 from ankiqt.ui.main import AnkiQt
 from ankiqt import mw
 
-from httpx import HTTPClient
-import gui
+from httpx import *
 
+from . import gui, config
 
-USER='foo'
-PWD ='bar'
 HOST='localhost'
 PORT=5000
 
+# A few callables used to hook into Anki
+
+class AnkiQt_moveToState:
+    def __init__(self, annikki):
+        self.annikki = annikki
+
+    def __call__(self, ankiqt, state):
+        if state == "studyScreen" or state == "deckFinished":
+            self.annikki.api.studied(ankiqt.deck.name(), self.annikki.cards_answered)
+            self.annikki.cards_answered = []
+
+class Deck_answerCard:
+    def __init__(self, annikki):
+        self.annikki = annikki
+
+    def __call__(self, deck, card, ease):
+        self.annikki.cardAnswered(deck, card, ease)
+
+# The main plugin class
+
 class AnnikkiPlugin(object):
     def __init__(self):
-        def moveToState(ankiqt, state): # ankiqt.ui.main.AnkiQt
-            if state == "studyScreen" or state == "deckFinished":
-                self.api.studied(ankiqt.deck.cardsInLastSession(), ankiqt.deck.name())
-
-        AnkiQt.moveToState = wrap(AnkiQt.moveToState, moveToState, "before")
-        self.api = AnnikkiClient()
+        AnkiQt.moveToState = wrap(AnkiQt.moveToState, AnkiQt_moveToState(self), "before")
+        Deck.answerCard = wrap(Deck.answerCard, Deck_answerCard(self), "after")
+        self.config = config.Config(mw.config)
+        self.api = AnnikkiClient(self, self.config)
         self.setup_ui()
+        self.cards_answered = []
 
     def setup_ui(self):
         self.actionConfigure = QtGui.QAction(mw)
@@ -47,52 +71,53 @@ class AnnikkiPlugin(object):
         if 'config_dialog' in self.__dict__:
             self.config_dialog.show()
         else:
-            self.config_dialog = gui.ConfigDialog()
+            self.config_dialog = gui.ConfigDialog(self.config)
+            
+    def cardAnswered(self, deck, card, ease):
+        c = {}
+        for key in ('id','question','answer'):
+            c[key] = getattr(card, key)
+        c['ease'] = ease
+        self.cards_answered.append(c)
 
+# The HTTP client with support for the various Annikki API entry points
 
 class AnnikkiClient(HTTPClient):
-    def __init__(self):
+    def __init__(self, annikki, config):
         HTTPClient.__init__(self, HTTPConnection(HOST, PORT))
-        self.user = USER
-        self.pwd = PWD
+        self.config = config
+        self.annikki = annikki
         self.initialized()
 
     def _request(self, method, path_info, body, headers = {}):
         headers['Content-Type'] = 'application/json; charset=UTF-8'
         headers['Accept'] = 'application/json'
         headers['Accept-Charset'] = 'UTF-8'
-        return HTTPClient._request(self, method, path_info, body, headers)
+        try:
+            return HTTPClient._request(self, method, path_info, body, headers)
+        except Unauthorized:
+            self.annikki.show_config_dialog()
 
     def studied(self, cards, deck):
         #print "You studied %d cards of '%s', good on you!" % (cards, name)
         try:
-            print self.post('/api/studied', {"deck": deck, "cards": cards})
+            print self.post('/api/studylog', {"deck": deck, "cards": cards})
         except HTTPError as err:
-            #TODO
+        #TODO
             raise err
 
     def initialized(self):
         pass
-        #print self.post('/api/test', {"msg": "initialized"})
+        print self.post('/api/test', {"msg": "initialized"})
 
     def marshal(self, data):
-        data["user"] = self.user
-        data["pwd"] = self.pwd
+        data["v"] = VERSION
+        data["user"] = self.config.username
+        data["pwd"] = self.config.password
         return json.dumps(data)
 
     def unmarshal(self, body):
+        if body == None:
+            return {}
         return json.loads(body)
-
-############################################################
-# anki.deck.Deck
-
-def cardsInLastSession(self):
-    limit = self.sessionTimeLimit
-    start = self.sessionStartTime or time.time() - limit
-    return self.s.scalar(
-        "select count(*) from reviewHistory where time >= :t",
-        t=start)
-
-Deck.cardsInLastSession = cardsInLastSession
-
 

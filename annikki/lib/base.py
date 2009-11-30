@@ -46,7 +46,7 @@ def serialize_json(self, f):
             return json.dumps(f(self, data))
         except ValueError, e:
             log.debug(e)
-            log.debug(body)
+            log.debug("body="+body)
             abort(400, comment="The request body is not valid JSON")
 
 def api_call(f):

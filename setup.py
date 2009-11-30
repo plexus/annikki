@@ -34,7 +34,8 @@ setup(
     paster_plugins=['PasteScript', 'Pylons'],
     entry_points="""
     [paste.app_factory]
-    main = annikki.config.middleware:make_app
+    main_app = annikki.config.middleware:make_main_app
+    api_app = annikki.config.middleware:make_api_app
 
     [paste.app_install]
     main = pylons.util:PylonsInstaller

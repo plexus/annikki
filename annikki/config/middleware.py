@@ -11,9 +11,9 @@ from routes.middleware import RoutesMiddleware
 
 import authkit.authenticate
 
-from annikki.config.environment import load_environment
+from annikki.config.environment import load_environment, load_api_environment
 
-def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
+def make_main_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
 
     ``global_conf``
@@ -70,5 +70,17 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
         # Serve static files
         static_app = StaticURLParser(config['pylons.paths']['static_files'])
         app = Cascade([static_app, app])
+
+    return app
+
+def make_api_app(global_conf, full_stack=True, static_files=True, **app_conf):
+    # Configure the Pylons environment
+    load_api_environment(global_conf, app_conf)
+
+    app = PylonsApp()
+    app = RoutesMiddleware(app, config['routes.map'])
+    app = authkit.authenticate.middleware(app, app_conf)
+
+    app = RegistryManager(app)
 
     return app
