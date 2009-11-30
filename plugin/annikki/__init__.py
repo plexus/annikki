@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 #
 # Annikki : log your Anki activity on Annikki.org
 # Author : Arne Brasseur <arne@arnebrasseur.net>
@@ -39,7 +38,7 @@ class AnkiQt_moveToState:
 
     def __call__(self, ankiqt, state):
         if state == "studyScreen" or state == "deckFinished":
-            self.annikki.api.studied(ankiqt.deck.name(), self.annikki.cards_answered)
+            self.annikki.api.studied(ankiqt.deck, self.annikki.cards_answered)
             self.annikki.cards_answered = []
 
 class Deck_answerCard:
@@ -98,10 +97,9 @@ class AnnikkiClient(HTTPClient):
         except Unauthorized:
             self.annikki.show_config_dialog()
 
-    def studied(self, cards, deck):
-        #print "You studied %d cards of '%s', good on you!" % (cards, name)
+    def studied(self, deck, cards):
         try:
-            print self.post('/api/studylog', {"deck": deck, "cards": cards})
+            reply = self.post('/api/studylog', {"deck": deck.name(), "deck_id": deck.id, "cards": cards})
         except HTTPError as err:
         #TODO
             raise err
@@ -119,5 +117,8 @@ class AnnikkiClient(HTTPClient):
     def unmarshal(self, body):
         if body == None:
             return {}
-        return json.loads(body)
+        data = json.loads(body)
+        if data.has_key("msg"):
+            mw.mainWin.statusbar.showMessage(data["msg"], 3000)
+            
 

@@ -28,7 +28,7 @@ def setup_app(command, conf, vars):
     try:
         pass
         #users.role_create("delete")
-        #users.user_create("foo", password="bar")
+        users.user_create("foo", password="bar")
         #users.user_create("admin", password="opensesame")
         #users.user_add_role("admin", role="delete")
     except AuthKitError, e:

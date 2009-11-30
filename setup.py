@@ -38,7 +38,7 @@ setup(
     api_app = annikki.config.middleware:make_api_app
 
     [paste.app_install]
-    main = pylons.util:PylonsInstaller
+    main_app = pylons.util:PylonsInstaller
 
     [authkit.method]
     json = annikki.lib.authkitx:make_json_auth_handler

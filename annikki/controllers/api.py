@@ -9,8 +9,8 @@ from sqlalchemy.sql import func
 from annikki.lib import remote_user
 from annikki.lib.base import BaseController, render, api_call
 
-from annikki import model
-
+from annikki.model import *
+from annikki.model.meta import Session as s
 
 log = logging.getLogger(__name__)
 
@@ -27,9 +27,14 @@ class ApiController(BaseController):
     def studylog(self, data):
         user = remote_user(request)
 
-        if data['deck'] and data['cards']:
-            print data['deck']
-            pprint(data['cards'])
+        if data['deck'] and data['cards'] and data['deck_id']:
+            deck = Deck.find_or_create(user.uid, data['deck_id'], data['deck'])
+            for c in data['cards']:
+                card = Card.find_or_create(user.uid, deck.id, c['id'], c['question'], c['answer'])
+                review = Review(card.id, func.now(), c['ease'])
+                s.add(review)
+            s.commit()
+            return {'msg': "Submitted %d reviews" % len(data['cards'])}
 
         #    sl = model.StudyLog(user, data['deck'], data['count'], func.now())
         #    model.meta.Session.add(sl)
@@ -37,7 +42,8 @@ class ApiController(BaseController):
         #else:
         #    abort(400, "'studylog' requires parameters 'deck' and 'count'")
 
-        return {"msg":"Added studylog"}
+        pprint(data)
+        return {"msg":"Bad request to studylog"}
         
     @api_call
     def test(self, data):
