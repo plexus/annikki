@@ -4,11 +4,24 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../base.html" />
   <head />
-  <body>
-    <div id="header" />
-    <div id="sidebar" />
+  <body id="main" class="general">
     <div id="content">
-      <h2>contents</h2>
+      <div class="stat-num">
+	<span class="number">175</span>
+	<span class="descr">cards studied today</span>
+      </div>
+
+      <div class="stat-num">
+	<span class="number">3175</span>
+	<span class="descr">cards studied this week</span>
+      </div>
+
+      <div class="stat-num">
+	<span class="number">57</span>
+	<span class="descr">decks studied this week</span>
+      </div>
+
+      <!--
       <ol>
 	<li py:for="r in review_sets">
 	  ${r.user.username} studied ${len(r.reviews)} cards at ${r.timestamp}
@@ -18,7 +31,7 @@
 	  </div>
 	</li>
       </ol>
+      -->
     </div>
-    <div id="footer" />
   </body>
 </html>

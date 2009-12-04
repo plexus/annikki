@@ -1,43 +1,51 @@
-<x xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:py="http://genshi.edgewall.org/" py:strip=""><head py:match="head">
+<x xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" py:strip="">
+
+  <head py:match="head">
     <title py:with="title = list(select('title/text()'))">
       <py:if test="title">${title} |</py:if>Annikki.org
     </title>
-    <style type="text/css">
-      .card {
-        border: 1px solid black;
-        margin: 2em 0;
-        width: 40em;
-      }
-      .a {
-        background-color: #eef;
-      }
-      .q {
-        background-color: #fee;
-        border-bottom: 1px solid black;
-      }
-      .a, .q {padding: 1em;}
-
-      body {
-        max-width : 65em;
-        margin: 0 auto;
-        background-color: #fff;
-        padding: 1em;
-      }
-      html {
-        background-color: #eee;
-      }
-    </style>
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]>
+    <link href="/stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <![endif]-->
   </head>
+
+  <py:match path="body" once="true">
+    <body py:attrs="select('@*')">
+      <div id="container">
+	<div id="header" />
+	<div id="sidebar" />
+	${select("*|text()")}
+	<div id="footer" />
+      </div>
+    </body>
+  </py:match>
+
   <div py:match="*[@id='header']" py:attrs="select('@*')">
     <h1>Annikki.org</h1>
-    <hr />
+    <span id="slogan">Your Anki logbook</span>
+    <ul id="offsite-links">
+      <li><a href="http://ichi2.net/anki/">Get Anki</a></li>
+    </ul>
   </div>
+
   <div py:match="*[@id='sidebar']" py:attrs="select('@*')">
-    <h2>sidebar</h2>
+    <ul id="main-nav">
+      <li><a href="">Home</a></li>
+      <li><a href="">Users</a></li>
+      <li><a href="">Decks</a></li>
+      <li><a href="">Stats</a></li>
+    </ul>
   </div>
+
   <div py:match="*[@id='footer']" py:attrs="select('@*')">
-    <hr />
-    <p>&copy; Annikki.org 2009</p>
+    <div id="unobtrusive-logo">
+      <span class="selector">un</span>
+      <span class="brace">{</span>
+      <span class="rule">ob:tru-sive;</span>
+      <span class="brace">}</span>
+    </div>
   </div>
+
 </x>

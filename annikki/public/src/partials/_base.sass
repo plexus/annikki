@@ -1,0 +1,33 @@
+!blueprint_grid_columns = 16
+!blueprint_grid_width = 35px
+!blueprint_grid_margin  = 15px
+
+!blueprint_font_size = 16px
+
+// Use this to calculate the width based on the total width.
+// Or you can set !blueprint_grid_width to a fixed value and unset !blueprint_container_size -- it will be calculated for you.
+// !blueprint_container_size = 950px
+// !blueprint_grid_width   = (!blueprint_container_size + !blueprint_grid_margin) / !blueprint_grid_columns - !blueprint_grid_margin
+
+=bordered(!width = 1px, !color = !color1)
+  border= !width "solid" !color
+
+=h1-size
+  :font-size 3em
+  :line-height 1
+  :margin-bottom 0.5em
+=h2-size
+  :font-size 2em
+  :margin-bottom 0.75em
+=h3-size
+  :font-size 1.5em
+  :line-height 1
+  :margin-bottom 1em
+=h4-size
+  :font-size 1.2em
+  :line-height 1.25
+  :margin-bottom 1.25em
+
+=rounded-corners(!radius=5px)
+  -moz-border-radius= !radius
+  -webkit-border-radius= !radius

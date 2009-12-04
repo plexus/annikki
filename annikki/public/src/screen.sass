@@ -1,0 +1,111 @@
+@import blueprint/reset.sass
+
+@import partials/base.sass
+@import partials/color.sass
+
+@import blueprint
+@import compass/utilities.sass
+@import compass/misc.sass
+
++blueprint-typography
++blueprint-debug
+
+form.bp
+  +blueprint-form
+
+body.general
+  ////////////////////////////////////////////////////////////////////////////////
+  //dimensions
+  #container
+    +container
+    margin-top: 1em
+    margin-bottom: 2em
+    
+  #header, #footer
+    +column(!blueprint_grid_columns)
+
+  #sidebar
+    !sidebar_columns = floor(!blueprint_grid_columns / 3)
+    +column(!sidebar_columns)
+    #main-nav
+      +prepend(1)
+
+  #content
+    !content_columns = ceil(2 * !blueprint_grid_columns / 3)
+    +column(!content_columns, true)
+
+  #sidebar, #content
+    padding-top: 1.5em
+    padding-bottom: 1.5em
+
+  #header
+    position: relative
+    padding-top: 1.5em
+    h1
+      +prepend(1)
+    #offsite-links
+      position: absolute
+      top: 1.5em
+      right= !blueprint_grid_margin
+    #slogan
+      position: relative
+      +prepend(2)
+      top: -1.5em
+    
+  #footer
+    padding-top: 1.5em
+    +prepend(1)
+    padding-bottom: 1.5em
+    
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //colors, borders, fonts
+  #container
+    +bordered
+
+  #header
+    border-bottom: 2px solid black
+    h1
+      font-family: Times, serif
+
+  #footer
+    border-top: 2px solid black
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //other styles
+  #header
+    #offsite-links
+      +horizontal-list
+
+  #header, #sidebar
+    a
+      +hover-link
+
+  #sidebar
+    #main-nav
+      +no-bullets
+      +h2-size
+      margin: 0
+
+  #footer
+    #unobtrusive-logo
+      +unobtrusive-logo
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //stat numbers
+  .stat-num
+    font-size: 1.5em
+    line-height: 1
+    margin-top: 0.5em
+
+    .number
+      +column(2)
+      +rounded-corners
+      background-color= !color1
+      color: white
+      text-align: center
+
+    .number, .descr
+      display: block
+      padding-top: 0.25em
+      padding-bottom: 0.25em
