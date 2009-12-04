@@ -1,0 +1,43 @@
+<x xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/" py:strip=""><head py:match="head">
+    <title py:with="title = list(select('title/text()'))">
+      <py:if test="title">${title} |</py:if>Annikki.org
+    </title>
+    <style type="text/css">
+      .card {
+        border: 1px solid black;
+        margin: 2em 0;
+        width: 40em;
+      }
+      .a {
+        background-color: #eef;
+      }
+      .q {
+        background-color: #fee;
+        border-bottom: 1px solid black;
+      }
+      .a, .q {padding: 1em;}
+
+      body {
+        max-width : 65em;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 1em;
+      }
+      html {
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <div py:match="*[@id='header']" py:attrs="select('@*')">
+    <h1>Annikki.org</h1>
+    <hr />
+  </div>
+  <div py:match="*[@id='sidebar']" py:attrs="select('@*')">
+    <h2>sidebar</h2>
+  </div>
+  <div py:match="*[@id='footer']" py:attrs="select('@*')">
+    <hr />
+    <p>&copy; Annikki.org 2009</p>
+  </div>
+</x>

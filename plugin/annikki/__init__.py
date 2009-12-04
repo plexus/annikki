@@ -26,6 +26,8 @@ from ankiqt import mw
 from httpx import *
 
 from . import gui, config
+from annikki.timex import datetime_as_str
+from datetime import datetime as dt
 
 HOST='localhost'
 PORT=5000
@@ -77,6 +79,7 @@ class AnnikkiPlugin(object):
         for key in ('id','question','answer'):
             c[key] = getattr(card, key)
         c['ease'] = ease
+        c['time'] = datetime_as_str(dt.utcnow())
         self.cards_answered.append(c)
 
 # The HTTP client with support for the various Annikki API entry points
@@ -99,7 +102,12 @@ class AnnikkiClient(HTTPClient):
 
     def studied(self, deck, cards):
         try:
-            reply = self.post('/api/studylog', {"deck": deck.name(), "deck_id": deck.id, "cards": cards})
+            reply = self.post('/api/studylog', 
+                              {"deck":     deck.name(), 
+                               "syncName": deck.syncName, 
+                               "cards":    cards, 
+                               "time":     datetime_as_str(dt.utcnow())
+                               })
         except HTTPError as err:
         #TODO
             raise err

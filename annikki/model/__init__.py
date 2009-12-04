@@ -5,7 +5,7 @@
 import sqlalchemy as sa
 
 from sqlalchemy import orm, and_
-from sqlalchemy.orm import relation, backref
+from sqlalchemy.orm import relation, backref, eagerload, eagerload_all
 
 from sqlalchemy import Integer, String, DateTime
 from sqlalchemy import Table, Column, MetaData, ForeignKey
@@ -50,16 +50,15 @@ class Deck(Base):
         self.user_deck_id = user_deck_id
         self.name = name
 
-    def find_or_create(klz, user_id, user_deck_id, name):
+    @classmethod
+    def find_or_create(klz, user_id, name):
         try:
-            deck = s.query(Deck).filter(and_(Deck.user_deck_id == user_deck_id, Deck.user_id == user_id)).one()
+            deck = s.query(Deck).filter(and_(Deck.name == name, Deck.user_id == user_id)).one()
         except NoResultFound, e:
             deck = Deck(user_id, user_deck_id, name)
             s.add(deck)
             s.commit()
         return deck
-
-    find_or_create = classmethod(find_or_create)
 
 class Card(Base):
     __tablename__ = "card"
@@ -80,6 +79,7 @@ class Card(Base):
         self.deck_id = deck_id
         self.answer = answer
 
+    @classmethod
     def find_or_create(klz, user_id, deck_id, user_card_id, question, answer):
         try:
             card = s.query(Card).filter(and_(Card.user_card_id == user_card_id, Card.user_id == user_id)).one()
@@ -89,7 +89,26 @@ class Card(Base):
             s.commit()
         return card
 
-    find_or_create = classmethod(find_or_create)
+
+
+class ReviewSet(Base):
+    __tablename__ = "review_set"
+
+    id = Column(Integer, primary_key = True)
+    timestamp = Column(DateTime)
+    user_id = Column(Integer, ForeignKey('users.uid'))
+    user = relation((lambda: annikki.model.User), backref=backref('review_sets'))
+    #deck_id = Column(Integer, ForeignKey('deck.id'))
+    #deck = relation(Deck, backref=backref('review_sets'))
+    
+    def __init__(self, timestamp, user_id):
+        self.timestamp = timestamp
+        self.user_id = user_id
+        #self.deck_id = deck_id
+
+    @classmethod
+    def all():
+        s.query(ReviewSet).option(eagerload_all('reviews.card'), eagerload('user'))
 
 class Review(Base):
     __tablename__ = "review"
@@ -99,6 +118,8 @@ class Review(Base):
     ease = Column(Integer)
     card_id = Column(Integer, ForeignKey('card.id'))
     card = relation(Card, backref=backref('review', order_by=timestamp))
+    review_set_id = Column(Integer, ForeignKey('review_set.id'))
+    review_set = relation(ReviewSet, backref = backref('reviews'))
 
     def __init__(self, card_id, timestamp, ease):
         self.card_id = card_id
