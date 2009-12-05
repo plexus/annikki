@@ -87,7 +87,7 @@ caption { background: #eee; }
 
 .loud { color: #111111; }
 
-.showgrid { background: url('/images/grid.png?1259957413'); }
+.showgrid { background: url('/images/grid.png?1260027490'); }
 
 form.bp label { font-weight: bold; }
 form.bp fieldset { padding: 1.4em; margin: 0 0 1.5em 0; }
@@ -103,23 +103,16 @@ form.bp input.text:focus, form.bp input.title:focus, form.bp textarea:focus, for
 form.bp input.text, form.bp input.title { width: 300px; }
 form.bp textarea { width: 390px; height: 250px; }
 
-body.general #container { width: 785px; margin: 0 auto; overflow: hidden; display: inline-block; margin-top: 1em; margin-bottom: 2em; }
+body.general #container { width: 785px; margin: 0 auto; overflow: hidden; display: inline-block; }
 body.general #container { display: block; }
-body.general #header, body.general #footer { display: inline; float: left; margin-right: 15px; width: 785px; }
-* html body.general #header, * html body.general #footer { overflow-x: hidden; }
-body.general #sidebar { display: inline; float: left; margin-right: 15px; width: 235px; }
-* html body.general #sidebar { overflow-x: hidden; }
-body.general #sidebar #main-nav { padding-left: 50px; }
-body.general #content { display: inline; float: left; margin-right: 0; width: 535px; }
-* html body.general #content { overflow-x: hidden; }
-body.general #sidebar, body.general #content { padding-top: 1.5em; padding-bottom: 1.5em; }
+body.general #header, body.general #footer, body.general #content { display: inline; float: left; margin-right: 15px; width: 785px; }
+* html body.general #header, * html body.general #footer, * html body.general #content { overflow-x: hidden; }
+body.general #content { padding-top: 1.5em; padding-bottom: 1.5em; }
 body.general #header { position: relative; padding-top: 1.5em; }
-body.general #header h1 { padding-left: 50px; }
 body.general #header #offsite-links { position: absolute; top: 1.5em; right: 15px; }
-body.general #header #slogan { position: relative; padding-left: 100px; top: -1.5em; }
-body.general #footer { padding-top: 1.5em; padding-left: 50px; padding-bottom: 1.5em; }
-body.general #container { border: 1px solid #111f45; }
-body.general #header { border-bottom: 2px solid black; }
+body.general #header #slogan { position: relative; padding-left: 50px; top: -1.5em; }
+body.general #footer { padding-top: 1.5em; padding-bottom: 1.5em; }
+body.general #header { border-bottom: 5px solid black; }
 body.general #header h1 { font-family: Times, serif; }
 body.general #footer { border-top: 2px solid black; }
 body.general #header #offsite-links { margin: 0; padding: 0; border: 0; outline: 0; overflow: hidden; display: inline-block; }
@@ -129,7 +122,7 @@ body.general #header #offsite-links li.first { padding-left: 0px; }
 body.general #header #offsite-links li.last { padding-right: 0px; }
 body.general #header a, body.general #sidebar a { text-decoration: none; }
 body.general #header a:hover, body.general #sidebar a:hover { text-decoration: underline; }
-body.general #sidebar #main-nav { font-size: 2em; margin-bottom: 0.75em; margin: 0; }
+body.general #sidebar #main-nav { margin-left: 0; font-size: 2em; margin-bottom: 0.75em; }
 body.general #sidebar #main-nav li { list-style-type: none; margin-left: 0px; }
 body.general #footer #unobtrusive-logo { font-family: Monaco, Courier, "Lucida Sans Unicode", monospace; font-size: 1em; color: #888; }
 body.general #footer #unobtrusive-logo .selector { vertical-align: middle; font-size: 1.3em; }

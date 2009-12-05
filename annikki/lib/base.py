@@ -22,7 +22,7 @@ from annikki.model.meta import Session as s
 # AuthKit
 from authkit.permissions import ValidAuthKitUser
 from authkit.authorize.pylons_adaptors import authorize
-from annikki.lib import remote_user
+from annikki.lib.user import remote_user
 UserAuth = ValidAuthKitUser()
 
 # Util

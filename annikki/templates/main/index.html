@@ -11,15 +11,13 @@
 	<span class="descr">cards studied today</span>
       </div>
 
-      <div class="stat-num">
-	<span class="number">3175</span>
-	<span class="descr">cards studied this week</span>
+      <div id="user-ranking">
+	Top users
+	<ol>
+	  <li py:for="u in top_users"><a href="">${u.username}</a></li>
+	</ol>
       </div>
 
-      <div class="stat-num">
-	<span class="number">57</span>
-	<span class="descr">decks studied this week</span>
-      </div>
 
       <!--
       <ol>

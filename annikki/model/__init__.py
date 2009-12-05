@@ -18,8 +18,6 @@ Base = declarative_base()
 from annikki.model import meta
 from annikki.model.meta import Session as s
 
-from authkit.users.sqlalchemy_driver.sqlalchemy_05 import UsersFromDatabase
-
 import annikki
 
 def init_model(engine):
