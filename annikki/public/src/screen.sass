@@ -14,62 +14,85 @@ form.bp
   +blueprint-form
 
 body.general
+  +base_colors
+
   ////////////////////////////////////////////////////////////////////////////////
-  //dimensions
+  // basic grid
   #container
     +container
-    margin-top: 1em
-    margin-bottom: 2em
-    
-  #header, #footer
+  #header, #footer, #content
     +column(!blueprint_grid_columns)
-
   #sidebar
     !sidebar_columns = floor(!blueprint_grid_columns / 3)
     +column(!sidebar_columns)
-    #main-nav
-      +prepend(1)
-
-  #content
+  //
+    #content
     !content_columns = ceil(2 * !blueprint_grid_columns / 3)
     +column(!content_columns, true)
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // header positioning
+  #header
+    // This is a bit of hacking, we make the three components wide enough
+    // so they stack underneath each other
+    // Then we move them to where we want them in the grid
+
+    h1, #slogan, #offsite-links
+      +column(10)
+
+    h1
+      //1 column forward
+      +prepend(1)
+
+    #slogan
+      position: relative
+      //2 column forward
+      +prepend(2)
+      //1 row up
+      top: -1.5em 
+
+    #offsite-links
+      position: relative
+      //4 rows up
+      top: -6em
+      //14 columns to the right
+      left= 15 * !blueprint_column_width
+
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // margins
+  #container
+    margin-top: 1.5em
+    margin-bottom: 3em
+    
+  #sidebar
+    #main-nav
+      +prepend(1)
 
   #sidebar, #content
     padding-top: 1.5em
     padding-bottom: 1.5em
 
   #header
-    position: relative
     padding-top: 1.5em
-    h1
-      +prepend(1)
-    #offsite-links
-      position: absolute
-      top: 1.5em
-      right= !blueprint_grid_margin
-    #slogan
-      position: relative
-      +prepend(2)
-      top: -1.5em
     
   #footer
+    +prepend(11)
     padding-top: 1.5em
-    +prepend(1)
     padding-bottom: 1.5em
     
 
   ////////////////////////////////////////////////////////////////////////////////
   //colors, borders, fonts
   #container
-    +bordered
+    color= !c_foreground_1
+    background-color= !c_background_2
+    +rounded-corners(1em)
 
   #header
     border-bottom: 2px solid black
     h1
       font-family: Times, serif
-
-  #footer
-    border-top: 2px solid black
 
   ////////////////////////////////////////////////////////////////////////////////
   //other styles
@@ -84,28 +107,72 @@ body.general
   #sidebar
     #main-nav
       +no-bullets
-      +h2-size
+      +h3-size
+      line-height: 2
       margin: 0
 
   #footer
-    #unobtrusive-logo
-      +unobtrusive-logo
+    #smallprint-nav
+      +horizontal-list
+      margin: 0 auto
+      font-size: 0.75em
+      line-height: 2
 
   ////////////////////////////////////////////////////////////////////////////////
   //stat numbers
+  #main-counters
+    +column(18)
+    +prepend(5)
+    +bottom(2)
+
   .stat-num
+    +column(11)
     font-size: 1.5em
     line-height: 1
     margin-top: 0.5em
 
     .number
-      +column(2)
+      +column(4)
       +rounded-corners
-      background-color= !color1
-      color: white
+      background-color= !c_colored_1
       text-align: center
 
-    .number, .descr
-      display: block
+    .pre
+      +column(2)
+      text-align: right
+    .descr
+      +column(4)
+
+    .pre, .descr, .number
       padding-top: 0.25em
       padding-bottom: 0.25em
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // ranking
+  #ranking-wrap
+    +column(16)
+    +prepend(2)
+  .ranking
+    +column(7)
+    li
+      :border-bottom 1px dashed
+      :margin-bottom -1px
+      a
+        +no_color_hover_link
+    .user-review-count
+      :position relative
+      :float right
+  #deck-ranking
+    +prepend(1)
+    +column(7, true)
+
+////////////////////////////////////////////////////////////////////////////////
+// debug
+.debug
+  #header
+    h1
+      background-color: green
+    #slogan
+      background-color: blue
+    #offsite-links
+      background-color: red

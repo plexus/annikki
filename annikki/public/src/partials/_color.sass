@@ -1,6 +1,36 @@
-//three hues of blue
+//grey light and dark
+!c_background_1 = #1D1D1D
+!c_background_2 = #555555
 
-!color1 = #111f45
-!color2 = #223fa8
-!color3 = #3360ff
+//white
+!c_foreground_1 = #FFF
 
+//green
+!c_colored_1 = #AEC95F
+
+//blue
+!c_link_1 = #4AB9EF
+!c_link_2 = #C6E7F7 
+//#98D7F7
+
+=base_colors
+  background-color= !c_background_1
+  color= !c_foreground_1
+
+  h1,h2,h3,h4,p,div,span
+    color= !c_foreground_1
+
+  a
+    color= !c_link_1
+  a:visited
+    color= !c_link_2
+
+=no_color_hover_link
+  color= !c_foreground_1
+  text-decoration: none
+  &:hover
+    color= !c_link_1
+    //text-decoration: underline
+    border-bottom: 1px dashed
+  &:hover:visited
+    color= !c_link_2

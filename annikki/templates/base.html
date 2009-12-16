@@ -15,7 +15,7 @@
     <body py:attrs="select('@*')">
       <div id="container">
 	<div id="header" />
-	<div id="sidebar" />
+	<!--<div id="sidebar" />-->
 	${select("*|text()")}
 	<div id="footer" />
       </div>
@@ -40,12 +40,11 @@
   </div>
 
   <div py:match="*[@id='footer']" py:attrs="select('@*')">
-    <div id="unobtrusive-logo">
-      <span class="selector">un</span>
-      <span class="brace">{</span>
-      <span class="rule">ob:tru-sive;</span>
-      <span class="brace">}</span>
-    </div>
+    <ul id="smallprint-nav">
+      <li><a href="#">What's this?</a></li>
+      <li><a href="#">Discuss</a></li>
+      <li><a href="#">Developers</a></li>
+    </ul>
   </div>
 
 </x>

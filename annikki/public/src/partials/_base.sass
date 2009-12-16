@@ -1,8 +1,10 @@
-!blueprint_grid_columns = 16
+!blueprint_grid_columns = 18
 !blueprint_grid_width = 35px
 !blueprint_grid_margin  = 15px
 
 !blueprint_font_size = 16px
+
+!blueprint_column_width = !blueprint_grid_width + !blueprint_grid_margin
 
 // Use this to calculate the width based on the total width.
 // Or you can set !blueprint_grid_width to a fixed value and unset !blueprint_container_size -- it will be calculated for you.
@@ -31,3 +33,12 @@
 =rounded-corners(!radius=5px)
   -moz-border-radius= !radius
   -webkit-border-radius= !radius
+
+=bottom(!n)
+  margin-bottom= !n * 1.5em
+
+//leaving this here for reference, this probably doesn't work as it is now
+=left_right_gradient(!start, !stop)
+  background-image= "-moz-linear-gradient(left, right, from(" !start "), to(" !stop "))"
+  background-image= "-webkit-gradient(linear, left top, left bottom, color-stop(0.00, " !start "), color-stop(1.00, " !stop "))"
+  filter= "progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr=" !start ",endColorstr=" !stop ", GradientType=0)"
