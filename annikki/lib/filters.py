@@ -32,3 +32,15 @@ class HTMLFormErrors(object):
             else:
                 yield kind, data, pos
             
+# When the user submits a form we want to display any related
+# errors next to the fields that caused them. Exceptions from
+# AuthKit or SQLalchemy don't contain that information.
+#
+# The dictionary passed in should contain fieldname: error msg
+# key value pairs.
+#
+# see also annikki.lib.filters.HTMLFormErrors
+class FormError(Exception):
+  def __init__(self, **kw):
+    Exception.__init__(self)
+    self.error_dict = kw

@@ -25,6 +25,7 @@
   <div py:match="*[@id='header']" py:attrs="select('@*')">
     <h1>Annikki.org</h1>
     <span id="slogan">Your Anki logbook</span>
+    <!-- <span py:if="'REMOTE_USER' in request.environ">${request.environ["REMOTE_USER"]}</span> -->
     <ul id="offsite-links">
       <li><a href="http://ichi2.net/anki/">Get Anki</a></li>
     </ul>

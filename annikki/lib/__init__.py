@@ -1,4 +1,6 @@
 from annikki import model
+from annikki.lib.error import FormError
+from sqlalchemy.exc import IntegrityError
 
 from authkit.users.sqlalchemy_driver import UsersFromDatabase as AuthKitUsersFromDatabase
 from paste.util.import_string import eval_import
@@ -78,29 +80,30 @@ class UsersFromDatabase(AuthKitUsersFromDatabase):
             "groups",
             metadata,
             Column("uid",        Integer,        primary_key=True),
-            Column("name",      String(255),    unique=True,    nullable=False),
+            Column("name",       String(255),    unique=True,    nullable=False),
         )
         roles_table = Table(
             "roles",
             metadata,
             Column("uid",        Integer,        primary_key=True),
-            Column("name",      String(255),    unique=True,    nullable=False),
+            Column("name",       String(255),    unique=True,    nullable=False),
         )
         users_table = Table(
             "users",
             metadata,
             Column("uid",        Integer,        primary_key=True),
-            Column("username",  String(255),    unique=True,    nullable=False),
-            Column("password",  String(255),     nullable=False),
-            Column("email",  String(255),    unique=True,    nullable=False),
+            Column("username",   String(255),    unique=True,    nullable=False),
+            Column("password",   String(255),    nullable=False),
+            Column("email",      String(255),    unique=True,    nullable=False),
             Column("group_uid",  Integer,        ForeignKey("groups.uid")),
         )
-        users_roles_table = Table(                # many:many relation table
+        users_roles_table = Table(               # many:many relation table
             "users_roles",
             metadata,
             Column("user_uid",   Integer,        ForeignKey("users.uid")),
             Column("role_uid",   Integer,        ForeignKey("roles.uid")),
         )
+
         # Uses the mapper as part of the Session
         mapper(
             Group,
@@ -136,10 +139,6 @@ class UsersFromDatabase(AuthKitUsersFromDatabase):
         """
         Create a new user with the username, password and group name specified.
         """
-        if ' ' in username:
-            raise AuthKitError("Usernames cannot contain space characters")
-        if self.user_exists(username):
-            raise AuthKitError("User %r already exists"%username)            
         if group is None:
             new_user = self.model.User(
                 username=username.lower(), 
@@ -159,7 +158,25 @@ class UsersFromDatabase(AuthKitUsersFromDatabase):
                 email=email
             )
         self.meta.Session.add(new_user)
-        self.meta.Session.flush()
+        try:
+            self.meta.Session.flush()
+        except IntegrityError, e:
+            self.meta.Session.rollback()
+            errors={}
+            if self.user_exists(username):
+                errors['username'] = 'This username is already taken.'
+            if self.email_exists(email):
+                errors['email'] = 'This e-mail is already registered.'
+            if errors:
+                raise FormError(**errors)
+            raise e
 
     #more natural alias
     create_user = user_create
+
+    def email_exists(self, email):
+        user = self.meta.Session.query(self.model.User).filter_by(
+            email=email.lower()).first()
+        if user is not None:
+            return True
+        return False
