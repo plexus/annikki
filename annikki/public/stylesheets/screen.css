@@ -89,20 +89,6 @@ caption { background: #eee; }
 
 .showgrid { background: url('/images/grid.png?1259957413'); }
 
-form.bp label { font-weight: bold; }
-form.bp fieldset { padding: 1.4em; margin: 0 0 1.5em 0; }
-form.bp legend { font-weight: bold; font-size: 1.2em; }
-form.bp input.text, form.bp input.title, form.bp input[type=text] { margin: 0.5em 0; background-color: #fff; padding: 5px; }
-form.bp input.title { font-size: 1.5em; }
-form.bp input[type=checkbox], form.bp input.checkbox, form.bp input[type=radio], form.bp input.radio { position: relative; top: 0.25em; }
-form.bp textarea { margin: 0.5em 0; padding: 5px; }
-form.bp select { margin: 0.5em 0; }
-form.bp fieldset { border: 1px solid #cccccc; }
-form.bp input.text, form.bp input.title, form.bp textarea, form.bp select { border: 1px solid #bbbbbb; }
-form.bp input.text:focus, form.bp input.title:focus, form.bp textarea:focus, form.bp select:focus { border: 1px solid #666666; }
-form.bp input.text, form.bp input.title { width: 300px; }
-form.bp textarea { width: 390px; height: 250px; }
-
 body.general { background-color: #1d1d1d; color: white; }
 body.general h1, body.general h2, body.general h3, body.general h4, body.general p, body.general div, body.general span { color: white; }
 body.general a { color: #4ab9ef; }
@@ -140,28 +126,48 @@ body.general #footer #smallprint-nav { display: block; }
 body.general #footer #smallprint-nav li { list-style-type: none; margin-left: 0px; white-space: nowrap; display: inline; float: left; padding-left: 4px; padding-right: 4px; }
 body.general #footer #smallprint-nav li.first { padding-left: 0px; }
 body.general #footer #smallprint-nav li.last { padding-right: 0px; }
-body.general #main-counters { display: inline; float: left; margin-right: 15px; width: 885px; padding-left: 250px; margin-bottom: 3em; }
-* html body.general #main-counters { overflow-x: hidden; }
-body.general .stat-num { display: inline; float: left; margin-right: 15px; width: 535px; font-size: 1.5em; line-height: 1; margin-top: 0.5em; }
-* html body.general .stat-num { overflow-x: hidden; }
-body.general .stat-num .number { display: inline; float: left; margin-right: 15px; width: 185px; -moz-border-radius: 5px; -webkit-border-radius: 5px; background-color: #aec95f; text-align: center; }
-* html body.general .stat-num .number { overflow-x: hidden; }
-body.general .stat-num .pre { display: inline; float: left; margin-right: 15px; width: 85px; text-align: right; }
-* html body.general .stat-num .pre { overflow-x: hidden; }
-body.general .stat-num .descr { display: inline; float: left; margin-right: 15px; width: 185px; }
-* html body.general .stat-num .descr { overflow-x: hidden; }
-body.general .stat-num .pre, body.general .stat-num .descr, body.general .stat-num .number { padding-top: 0.25em; padding-bottom: 0.25em; }
-body.general #ranking-wrap { display: inline; float: left; margin-right: 15px; width: 785px; padding-left: 100px; }
-* html body.general #ranking-wrap { overflow-x: hidden; }
-body.general .ranking { display: inline; float: left; margin-right: 15px; width: 335px; }
-* html body.general .ranking { overflow-x: hidden; }
-body.general .ranking li { border-bottom: 1px dashed; margin-bottom: -1px; }
-body.general .ranking li a { color: white; text-decoration: none; }
-body.general .ranking li a:hover { color: #4ab9ef; border-bottom: 1px dashed; }
-body.general .ranking li a:hover:visited { color: #c6e7f7; }
-body.general .ranking .user-review-count { position: relative; float: right; }
-body.general #deck-ranking { padding-left: 50px; display: inline; float: left; margin-right: 0; width: 335px; }
-* html body.general #deck-ranking { overflow-x: hidden; }
+body.general #flashbox { display: inline; float: left; margin-right: 0; width: 735px; margin-left: 50px; padding-left: 50px; background-color: #fff2cc; color: #1d1d1d; border-color: #1d1d1d; -moz-border-radius: 1em; -webkit-border-radius: 1em; padding-top: 1.5em; }
+* html body.general #flashbox { overflow-x: hidden; }
+body.general #flashbox ul li { list-style-type: none; margin-left: 0px; }
+
+body#main #main-counters { display: inline; float: left; margin-right: 15px; width: 885px; padding-left: 250px; margin-bottom: 3em; margin-top: 1.5em; }
+* html body#main #main-counters { overflow-x: hidden; }
+body#main .stat-num { display: inline; float: left; margin-right: 15px; width: 535px; font-size: 1.5em; line-height: 1; margin-top: 0.5em; }
+* html body#main .stat-num { overflow-x: hidden; }
+body#main .stat-num .number { display: inline; float: left; margin-right: 15px; width: 185px; -moz-border-radius: 5px; -webkit-border-radius: 5px; background-color: #aec95f; text-align: center; }
+* html body#main .stat-num .number { overflow-x: hidden; }
+body#main .stat-num .pre { display: inline; float: left; margin-right: 15px; width: 85px; text-align: right; }
+* html body#main .stat-num .pre { overflow-x: hidden; }
+body#main .stat-num .descr { display: inline; float: left; margin-right: 15px; width: 185px; }
+* html body#main .stat-num .descr { overflow-x: hidden; }
+body#main .stat-num .pre, body#main .stat-num .descr, body#main .stat-num .number { padding-top: 0.25em; padding-bottom: 0.25em; }
+body#main #ranking-wrap { display: inline; float: left; margin-right: 15px; width: 785px; padding-left: 100px; }
+* html body#main #ranking-wrap { overflow-x: hidden; }
+body#main .ranking { display: inline; float: left; margin-right: 15px; width: 335px; }
+* html body#main .ranking { overflow-x: hidden; }
+body#main .ranking li { border-bottom: 1px dashed; margin-bottom: -1px; }
+body#main .ranking li a { color: white; text-decoration: none; }
+body#main .ranking li a:hover { color: #4ab9ef; border-bottom: 1px dashed; }
+body#main .ranking li a:hover:visited { color: #c6e7f7; }
+body#main .ranking .user-review-count { position: relative; float: right; }
+body#main #deck-ranking { padding-left: 50px; display: inline; float: left; margin-right: 0; width: 335px; }
+* html body#main #deck-ranking { overflow-x: hidden; }
+
+body#signup #content { padding-left: 150px; display: inline; float: left; margin-right: 15px; width: 585px; }
+* html body#signup #content { overflow-x: hidden; }
+body#signup #content form>div { display: inline; float: left; margin-right: 0; width: 585px; min-height: 3em; }
+* html body#signup #content form>div { overflow-x: hidden; }
+body#signup #content form label { display: inline; float: left; margin-right: 15px; width: 185px; }
+* html body#signup #content form label { overflow-x: hidden; }
+body#signup #content form .text_input { display: inline; float: left; margin-right: 0; width: 335px; }
+* html body#signup #content form .text_input { overflow-x: hidden; }
+body#signup #content form .errormsg { padding-left: 200px; display: inline; float: left; margin-right: 0; width: 335px; }
+* html body#signup #content form .errormsg { overflow-x: hidden; }
+body#signup #content form input[type=text], body#signup #content form input[type=password] { border: 1px solid black; padding: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px; }
+body#signup #content form input[type=text]:hover, body#signup #content form input[type=text]:focus, body#signup #content form input[type=password]:hover, body#signup #content form input[type=password]:focus { background-color: #f2ffa3; }
+body#signup #content form input.error { border-color: #C00; background-color: #FEF; }
+body#signup #content form .errormsg { display: block; color: #FDE; margin-bottom: 1.5em; }
+body#signup #content form input[type=submit] { width: 85px; margin-left: 200px; }
 
 .debug #header h1 { background-color: green; }
 .debug #header #slogan { background-color: blue; }

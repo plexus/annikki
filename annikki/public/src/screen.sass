@@ -2,6 +2,7 @@
 
 @import partials/base.sass
 @import partials/color.sass
+@import partials/forms.sass
 
 @import blueprint
 @import compass/utilities.sass
@@ -10,9 +11,12 @@
 +blueprint-typography
 +blueprint-debug
 
-form.bp
+//form.bp
   +blueprint-form
 
+//==============================================================================
+// General pages
+//==============================================================================
 body.general
   +base_colors
 
@@ -118,12 +122,28 @@ body.general
       font-size: 0.75em
       line-height: 2
 
+  #flashbox
+    +column(15, true)
+    +prepend-margin(1)
+    +prepend(1)
+    +light_color
+    +rounded-corners(1em)
+    :padding-top 1.5em
+    ul
+      +no-bullets
+    
+    
+//==============================================================================
+// Home page
+//==============================================================================
+body#main
   ////////////////////////////////////////////////////////////////////////////////
   //stat numbers
   #main-counters
     +column(18)
     +prepend(5)
     +bottom(2)
+    +top(1)
 
   .stat-num
     +column(11)
@@ -165,6 +185,18 @@ body.general
   #deck-ranking
     +prepend(1)
     +column(7, true)
+
+//==============================================================================
+// Signup page
+//==============================================================================
+body#signup
+  #content
+    +prepend(3)
+    +column(12)
+    form
+      +annikki_form
+
+      
 
 ////////////////////////////////////////////////////////////////////////////////
 // debug

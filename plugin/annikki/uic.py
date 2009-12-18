@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer/config.ui'
 #
-# Created: Mon Nov 30 11:57:35 2009
+# Created: Thu Dec 17 16:22:30 2009
 #      by: PyQt4 UI code generator 4.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -19,6 +19,8 @@ class Ui_ConfigAnnikkiDialog(object):
         self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setSizeConstraint(QtGui.QLayout.SetMaximumSize)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.horizontalLayout_2 = QtGui.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label_5 = QtGui.QLabel(self.verticalLayoutWidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -26,7 +28,15 @@ class Ui_ConfigAnnikkiDialog(object):
         sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
         self.label_5.setSizePolicy(sizePolicy)
         self.label_5.setObjectName("label_5")
-        self.verticalLayout.addWidget(self.label_5)
+        self.horizontalLayout_2.addWidget(self.label_5)
+        self.label_2 = QtGui.QLabel(self.verticalLayoutWidget)
+        self.label_2.setTextFormat(QtCore.Qt.RichText)
+        self.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_2.setOpenExternalLinks(True)
+        self.label_2.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByKeyboard|QtCore.Qt.LinksAccessibleByMouse)
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout_2.addWidget(self.label_2)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setSizeConstraint(QtGui.QLayout.SetMaximumSize)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -69,6 +79,7 @@ class Ui_ConfigAnnikkiDialog(object):
     def retranslateUi(self, ConfigAnnikkiDialog):
         ConfigAnnikkiDialog.setWindowTitle(QtGui.QApplication.translate("ConfigAnnikkiDialog", "Annikki Preferences", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("ConfigAnnikkiDialog", "<b>Annikki.org login</b>", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("ConfigAnnikkiDialog", "<a href=\"http://www.annikki.org/signup\">Sign up!</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("ConfigAnnikkiDialog", "Username", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("ConfigAnnikkiDialog", "Password", None, QtGui.QApplication.UnicodeUTF8))
 

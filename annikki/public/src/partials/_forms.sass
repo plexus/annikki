@@ -1,0 +1,33 @@
+// Mixin to get uniform looking fonts, 12 columns wide : 4 for the labels, 
+// 7 for the input elements, 1 spare because the inputs are slightly too wide
+// for 7 columns.
+//
+// Conventions : wrap each label+input in a single div
+// Note: Only tested on Firefox, probably breaks on other browsers to some degree
+=annikki_form
+  &>div
+    +column(12,true)
+    min-height: 3em
+  label
+    +column(4)
+  .text_input
+    +column(7,true)
+  .errormsg
+    +prepend(4)
+    +column(7,true)
+  input[type=text], input[type=password]
+    border: 1px solid black
+    padding: 2px
+    +rounded-corners(2px)
+    &:hover, &:focus
+      background-color= !c_colored_1 + #444
+  input.error 
+    border-color: #C00 
+    background-color: #FEF
+  .errormsg
+    display: block
+    color: #FDE
+    margin-bottom: 1.5em
+  input[type=submit]
+    +span(2)
+    +prepend-margin(4)

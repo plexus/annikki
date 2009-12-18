@@ -47,4 +47,15 @@
     </ul>
   </div>
 
+  <div py:match="*[@id='flashbox']" py:strip="">
+    <?python
+       messages = h.flash.pop_messages()
+    ?>
+    <div id="flashbox" py:if="messages" py:attrs="select('@*')">
+      <ul>
+	<li py:for="m in messages">${m}</li>
+      </ul>
+    </div>
+  </div>
+
 </x>

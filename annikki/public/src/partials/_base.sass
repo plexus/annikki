@@ -37,8 +37,15 @@
 =bottom(!n)
   margin-bottom= !n * 1.5em
 
+=top(!n)
+  margin-top= !n * 1.5em
+
 //leaving this here for reference, this probably doesn't work as it is now
 =left_right_gradient(!start, !stop)
   background-image= "-moz-linear-gradient(left, right, from(" !start "), to(" !stop "))"
   background-image= "-webkit-gradient(linear, left top, left bottom, color-stop(0.00, " !start "), color-stop(1.00, " !stop "))"
   filter= "progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr=" !start ",endColorstr=" !stop ", GradientType=0)"
+
+//like blueprint prepend, but uses margin instead of padding
+=prepend-margin(!n)
+  margin-left= !n * (!blueprint_grid_width + !blueprint_grid_margin)

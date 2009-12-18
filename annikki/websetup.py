@@ -1,7 +1,7 @@
 """Setup the annikki application"""
 import logging
 
-from authkit.users.sqlalchemy_driver import UsersFromDatabase
+from annikki.lib import UsersFromDatabase
 from authkit.users import AuthKitError
 
 from annikki.config.environment import load_environment
@@ -26,9 +26,11 @@ def setup_app(command, conf, vars):
 
     # base users
     try:
-        pass
+        users.group_create("user")
+        users.group_create("admin")
+
         #users.role_create("delete")
-        users.user_create("foo", password="bar")
+        #users.user_create("foo", password="bar", group="admin")
         #users.user_create("admin", password="opensesame")
         #users.user_add_role("admin", role="delete")
     except AuthKitError, e:

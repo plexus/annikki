@@ -24,7 +24,8 @@ def make_map():
     map.connect('/error/{action}/{id}', controller='error')
 
 
-    map.connect('/', controller='main', index='action')
+    map.connect('/', controller='main')
+    map.connect('/signup', controller='user', action='signup')
 
     #keep these last
     map.connect('/{controller}/{action}')

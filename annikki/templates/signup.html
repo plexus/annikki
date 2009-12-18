@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="base.html" />
+  <head />
+
+  <body id="signup" class="general">
+    <div id="content" class="showgrid-">
+      <h2>Sign up for Annikki!</h2>
+      
+      <form action="" method="POST">
+	<div>
+          <label for="username">Username</label>
+          <input class="text_input" type="text" name="username" />
+	</div>
+
+	<div>
+          <label for="email">E-mail address</label>
+          <input class="text_input" type="text" name="email" />
+	</div>
+
+	<div>
+          <label for="password">Password</label>
+          <input class="text_input" type="password" name="password" />
+	</div>
+	
+	<div>
+          <label for="confirm">Confirm</label>
+          <input class="text_input" type="password" name="confirm" />
+	</div>
+
+        <input class="button" type="submit" value="Sign up!" />
+      </form>
+    </div>
+  </body>
+
+</html>
