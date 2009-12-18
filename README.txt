@@ -9,9 +9,13 @@ Both parts are still in early development.
 Installation and Setup
 ======================
 
-Install ``annikki`` using easy_install::
+<del>Install ``annikki`` using easy_install::</del>
 
-    easy_install annikki
+    <del>easy_install annikki</del>
+
+Get 'annikki' from github::
+
+    git clone git://github.com/arnebrasseur/annikki.git
 
 Make a config file as follows::
 
@@ -22,3 +26,5 @@ Tweak the config file as appropriate and then setup the application::
     paster setup-app config.ini
 
 Then you are ready to go.
+
+    paster serve config.ini
