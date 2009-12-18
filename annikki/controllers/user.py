@@ -1,5 +1,5 @@
 from annikki.lib.base import *
-from annikki.lib.error import FormError
+from annikki.lib.filters import FormError
 
 import formencode
 from formencode import validators
@@ -36,7 +36,7 @@ class UserController(BaseController):
         users.create_user(**post)
     except FormError, e:
         return render("signup.html", form_data=request.POST, form_errors=e.error_dict)
-    meta.Session.commit()
+    s.commit()
     
     # Sign in so the cookie auth handler will send back the right cookie
     request.environ["REMOTE_USER"] = post['username']

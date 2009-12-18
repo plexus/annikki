@@ -112,6 +112,8 @@ body.general #footer { padding-left: 550px; padding-top: 1.5em; padding-bottom: 
 body.general #container { color: white; background-color: #555555; -moz-border-radius: 1em; -webkit-border-radius: 1em; }
 body.general #header { border-bottom: 2px solid black; }
 body.general #header h1 { font-family: Times, serif; }
+body.general #header h1 a { color: inherit; text-decoration: inherit; cursor: inherit; }
+body.general #header h1 a:hover { text-decoration: none; color: #aec95f; }
 body.general #header #offsite-links { margin: 0; padding: 0; border: 0; outline: 0; overflow: hidden; display: inline-block; }
 body.general #header #offsite-links { display: block; }
 body.general #header #offsite-links li { list-style-type: none; margin-left: 0px; white-space: nowrap; display: inline; float: left; padding-left: 4px; padding-right: 4px; }
@@ -149,7 +151,7 @@ body#main .ranking li { border-bottom: 1px dashed; margin-bottom: -1px; }
 body#main .ranking li a { color: white; text-decoration: none; }
 body#main .ranking li a:hover { color: #4ab9ef; border-bottom: 1px dashed; }
 body#main .ranking li a:hover:visited { color: #c6e7f7; }
-body#main .ranking .user-review-count { position: relative; float: right; }
+body#main .ranking .user-review-count, body#main .ranking .deck-review-count { position: relative; float: right; }
 body#main #deck-ranking { padding-left: 50px; display: inline; float: left; margin-right: 0; width: 335px; }
 * html body#main #deck-ranking { overflow-x: hidden; }
 

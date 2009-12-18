@@ -23,7 +23,10 @@ class HTTPError(Exception):
         self.body = body
 
     def __repr__(self):
-        "<HTTP %s %d %s>" % (self.__class__.__name__, self.status, self.msg)
+        return "<HTTP %s %d %s>" % (self.__class__.__name__, self.status, self.msg)
+
+    def __str__(self):
+        return "%s (%d)" % (self.msg, self. status)
 
 class RedirectError(HTTPError):
     pass

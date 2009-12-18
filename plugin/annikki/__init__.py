@@ -15,6 +15,7 @@ except ImportError:
 import simplejson as json
 
 from PyQt4 import QtGui, QtCore
+from PyQt4.QtGui import QMessageBox
 
 from anki.hooks import wrap, addHook
 from anki.deck import Deck
@@ -103,14 +104,22 @@ class AnnikkiClient(HTTPClient):
     def studied(self, deck, cards):
         try:
             reply = self.post('/api/studylog', 
-                              {"deck":     deck.name(), 
+                              {"deck":     deck.name(),
                                "syncName": deck.syncName, 
                                "cards":    cards, 
                                "time":     datetime_as_str(dt.utcnow())
                                })
-        except HTTPError as err:
-        #TODO
-            raise err
+        #TODO : improve error handling/messages
+        except ClientError, e:
+            QMessageBox.warning(mw, "Annikki has a problem", "Submitting to Annikki failed.\n\n%s" % e.msg)
+        except  ServerError, e:
+            if e.status == 503:
+                QMessageBox.warning(mw, "Annikki has a problem", "The Annikki site is currently unavailable.")
+            else:
+                QMessageBox.warning(mw, "Annikki has a problem", "Submitting to Annikki failed\n\n%s." % e.msg)
+
+        except HTTPError, e:
+            QMessageBox.warning(mw, "Annikki has a problem", "Submitting to Annikki failed.\n\n%s" % e.msg)
 
     def initialized(self):
         pass

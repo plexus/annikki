@@ -1,5 +1,5 @@
 from annikki import model
-from annikki.lib.error import FormError
+from annikki.lib.filters import FormError
 from sqlalchemy.exc import IntegrityError
 
 from authkit.users.sqlalchemy_driver import UsersFromDatabase as AuthKitUsersFromDatabase

@@ -40,14 +40,12 @@ class Deck(Base):
     __tablename__ = "deck"
 
     id = Column(Integer, primary_key = True)
-    user_deck_id = Column(Integer)
     name = Column(String)
     user_id = Column(Integer, ForeignKey('users.uid'))
     user = relation((lambda: annikki.model.User), backref=backref('deck', order_by=name))
 
-    def __init__(self, user_id, user_deck_id, name):
+    def __init__(self, user_id, name):
         self.user_id = user_id
-        self.user_deck_id = user_deck_id
         self.name = name
 
     @classmethod
@@ -55,7 +53,7 @@ class Deck(Base):
         try:
             deck = s.query(Deck).filter(and_(Deck.name == name, Deck.user_id == user_id)).one()
         except NoResultFound, e:
-            deck = Deck(user_id, user_deck_id, name)
+            deck = Deck(user_id, name)
             s.add(deck)
             s.commit()
         return deck
@@ -98,6 +96,10 @@ class ReviewSet(Base):
     timestamp = Column(DateTime)
     user_id = Column(Integer, ForeignKey('users.uid'))
     user = relation((lambda: annikki.model.User), backref=backref('review_sets'))
+
+    #perhaps we should have this as well? 
+    #We get by because a Card belongs to a Deck
+
     #deck_id = Column(Integer, ForeignKey('deck.id'))
     #deck = relation(Deck, backref=backref('review_sets'))
     

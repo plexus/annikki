@@ -97,6 +97,11 @@ body.general
     border-bottom: 2px solid black
     h1
       font-family: Times, serif
+      a
+        +unstyled-link
+        &:hover
+          :text-decoration none
+          color= !c_colored_1
 
   ////////////////////////////////////////////////////////////////////////////////
   //other styles
@@ -179,7 +184,7 @@ body#main
       :margin-bottom -1px
       a
         +no_color_hover_link
-    .user-review-count
+    .user-review-count, .deck-review-count
       :position relative
       :float right
   #deck-ranking
