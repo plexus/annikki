@@ -59,11 +59,20 @@ class HTTPClient:
         self.response = None
 
     def _request(self, method, path_info, body, headers):
+        print(method, path_info, body, headers)
         url = "%s://%s%s" % (self.protocol, self.conn.host, path_info)
-        self.conn.request(method, url, body, headers)
+        try:
+            self.conn.request(method, url, body, headers)
+        except http.ImproperConnectionState, e:
+            self.conn.close()
+            self.conn.connect()
+            print("retrying")
+            self._request(method, path_info, body, headers)
+
         self.response = self.conn.getresponse()
         self.response.begin()
         body = self.response.read()
+        print(self.response.status, body)
         if self.response.status >= 300:
             raise http_error(self.response.status, body)
         return body

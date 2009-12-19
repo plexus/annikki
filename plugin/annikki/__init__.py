@@ -30,7 +30,7 @@ from . import gui, config
 from annikki.timex import datetime_as_str
 from datetime import datetime as dt
 
-HOST='localhost'
+HOST='www.annikki.org'
 PORT=5000
 
 # A few callables used to hook into Anki
