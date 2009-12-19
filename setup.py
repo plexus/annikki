@@ -9,8 +9,8 @@ except ImportError:
 
 setup(
     name='annikki',
-    version='0.1.1',
-    description=u'Annikki (暗日記) is an on-line diary for Anki.',
+    version='0.1.4',
+    description=u'Annikki is an on-line logbook for Anki.',
     author=u'Arne Brasseur',
     author_email=u'arne@arnebrasseur.net',
     url=u'http://www.annikki.org',
@@ -21,7 +21,7 @@ setup(
         "AuthKit>=0.4.5"
     ],
     license=u"GPLv3",
-    long_description=u"Annikki (暗日記) is an on-line diary for Anki. Share your efforts with the world. The web application runs at www.annikki.org, while user stats are gathered through a plugin for Anki.",
+    long_description=u"Annikki is an on-line logbook for Anki. Share your efforts with the world. The web application runs at www.annikki.org, while user stats are gathered through a plugin for Anki.",
     setup_requires=["PasteScript>=1.6.3"],
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
@@ -30,7 +30,7 @@ setup(
     #message_extractors={'annikki': [
     #        ('**.py', 'python', None),
     #        ('public/**', 'ignore', None)]},
-    zip_safe=True,
+    zip_safe=False,
     paster_plugins=['PasteScript', 'Pylons'],
     entry_points="""
     [paste.app_factory]

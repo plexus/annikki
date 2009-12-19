@@ -1,21 +1,27 @@
 #
 # annikki - Pylons configuration
 #
-# The %(here)s variable will be replaced with the parent directory of this file
-#
 [DEFAULT]
 debug = true
-email_to = you@yourdomain.com
-smtp_server = localhost
-error_email_from = paste@localhost
+#email_to = you@yourdomain.com
+#smtp_server = localhost
+#error_email_from = paste@localhost
 
 [server:main]
 use = egg:Paste#http
 host = 0.0.0.0
 port = 5000
 
-[app:main]
-use = egg:annikki
+[composite:main]
+use = egg:Paste#urlmap
+/ = main_app
+/api = api_app
+
+#===============================================================================
+# App configuration
+
+[app:main_app]
+use = egg:annikki#main_app
 full_stack = true
 static_files = true
 
@@ -24,34 +30,70 @@ beaker.session.key = annikki
 beaker.session.secret = ${app_instance_secret}
 app_instance_uuid = ${app_instance_uuid}
 
-# If you'd like to fine-tune the individual locations of the cache data dirs
-# for the Cache data, or the Session saves, un-comment the desired settings
-# here:
+# OPTIONAL
 #beaker.cache.data_dir = %(here)s/data/cache
 #beaker.session.data_dir = %(here)s/data/sessions
 
-# SQLAlchemy database URL
-sqlalchemy.url = sqlite:///production.db
+# CHANGE THIS
+#sqlalchemy.url = sqlite:///production.db
+#sqlalchemy.url = mysql://user:password@host/db
 
-# WARNING: *THE LINE BELOW MUST BE UNCOMMENTED ON A PRODUCTION ENVIRONMENT*
-# Debug mode will enable the interactive debugging tool, allowing ANYONE to
-# execute malicious code after an exception is raised.
 set debug = false
 
+authkit.setup.enable = true
+authkit.setup.method = form, cookie
+authkit.form.authenticate.user.type = annikki.lib:UsersFromDatabase
+authkit.form.authenticate.user.data = annikki.model
 
+#CHANGE THIS
+authkit.cookie.secret = cookie secret
+authkit.cookie.signoutpath = /signout
+
+[app:api_app]
+use = egg:annikki#api_app
+authkit.setup.enable = true
+authkit.setup.method = json
+authkit.json.authenticate.user.type = annikki.lib:UsersFromDatabase
+authkit.json.authenticate.user.data = annikki.model
+
+# CHANGE THIS
+#sqlalchemy.url = sqlite:///production.db
+#sqlalchemy.url = mysql://user:password@host/db
+
+
+#===============================================================================
 # Logging configuration
 [loggers]
-keys = root
+keys = root, routes, annikki, sqlalchemy
+
+[logger_annikki]
+level = INFO
+handlers =
+qualname = annikki
+
+[logger_sqlalchemy]
+level = INFO
+handlers =
+qualname = sqlalchemy.engine
+# "level = INFO" logs SQL queries.
+# "level = DEBUG" logs SQL queries and results.
+# "level = WARN" logs neither.  (Recommended for production systems.)
+
+[logger_routes]
+level = DEBUG
+handlers =
+qualname = routes.middleware
+# "level = DEBUG" logs the route matched and routing variables.
+
+[logger_root]
+level = INFO
+handlers = console
 
 [handlers]
 keys = console
 
 [formatters]
 keys = generic
-
-[logger_root]
-level = INFO
-handlers = console
 
 [handler_console]
 class = StreamHandler
