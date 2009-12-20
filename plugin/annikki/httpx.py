@@ -5,12 +5,8 @@ to be used with REST style APIs.
 HTTP return codes of 300 or more are reported as an exception.
 """
 
-try:
-    import httplib as http
-except ImportError:
-    #Python 3
-    import http.client as http
-
+import httplib
+import socket
 from exceptions import Exception
 
 """
@@ -19,7 +15,7 @@ Exceptions
 class HTTPError(Exception):
     def __init__(self, status, body):
         self.status = status
-        self.msg  = http.responses[status]
+        self.msg  = httplib.responses[status]
         self.body = body
 
     def __repr__(self):
@@ -63,7 +59,7 @@ class HTTPClient:
         url = "%s://%s%s" % (self.protocol, self.conn.host, path_info)
         try:
             self.conn.request(method, url, body, headers)
-        except http.ImproperConnectionState, e:
+        except httplib.ImproperConnectionState, e:
             self.conn.close()
             self.conn.connect()
             print("retrying")
@@ -102,10 +98,30 @@ class HTTPClient:
     #PUT, DELETE, HEAD
 
 
+#httplib can't stand it when the server closes a persistent connection,
+#this shows as a BadStatusLine because it is only detected when trying
+#to read the first line of the response. Having lighttpd as a proxy
+#brings up this problem, this fix is taken literally from
+#http://bugs.python.org/issue3566
+class HTTPConnection(httplib.HTTPConnection):
+    def request(self, method, url, body=None, headers={}):
+        try:
+            self._send_request(method, url, body, headers)
+            b = self.sock.recv(1, socket.MSG_PEEK)
+            if b == '':
+                self.close()
+                raise socket.error(32) # sender closed connection.
+        except socket.error, v:
+            if v[0] != 32 or not self.auto_open:
+                raise
+            # try one more time
+            # self._send_request(method, url, body, headers)
+
+
 """
 import httplib as http
 import httpx
 import simplejson
-ua = httpx.HTTPClient(http.HTTPConnection('www.arnebrasseur.net'), marshal=simplejson)
+ua = httpx.HTTPClient(httpx.HTTPConnection('www.arnebrasseur.net'), marshal=simplejson)
 print repr(ua.get('/json'))
 """

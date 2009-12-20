@@ -5,13 +5,6 @@
 VERSION='0.1.0'
 
 import time
-
-try:
-    from httplib import HTTPConnection
-except ImportError:
-    #Python 3
-    from http.client import HTTPConnection
-
 import simplejson as json
 
 from PyQt4 import QtGui, QtCore
@@ -26,12 +19,12 @@ from ankiqt import mw
 
 from httpx import *
 
-from . import gui, config
+from annikki import gui, config
 from annikki.timex import datetime_as_str
 from datetime import datetime as dt
 
 HOST='www.annikki.org'
-PORT=5000
+PORT=80
 
 # A few callables used to hook into Anki
 
@@ -85,6 +78,7 @@ class AnnikkiPlugin(object):
 
 # The HTTP client with support for the various Annikki API entry points
 
+# TODO : process requests asycnhronously in a seperate queue thread
 class AnnikkiClient(HTTPClient):
     def __init__(self, annikki, config):
         HTTPClient.__init__(self, HTTPConnection(HOST, PORT))
