@@ -25,7 +25,9 @@ def make_map():
 
 
     map.connect('/', controller='main')
+
     map.connect('/signup', controller='user', action='signup')
+    map.connect('/user/{user}', controller='user', action='profile')
 
     #keep these last
     map.connect('/{controller}/{action}')

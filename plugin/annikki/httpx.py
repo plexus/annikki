@@ -49,12 +49,14 @@ def http_error(code, body):
 ############################################################
 #
 class HTTPClient:
-    def __init__(self, conn, protocol = 'http'):
-        self.conn = conn
+    def __init__(self, connection_factory, protocol = 'http'):
+        self.connection_factory = connection_factory
+        self.conn = None
         self.protocol = protocol
         self.response = None
 
     def _request(self, method, path_info, body, headers):
+        self.conn = self.connection_factory()
         print(method, path_info, body, headers)
         url = "%s://%s%s" % (self.protocol, self.conn.host, path_info)
         try:

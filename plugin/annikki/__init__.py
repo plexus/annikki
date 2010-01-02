@@ -81,7 +81,9 @@ class AnnikkiPlugin(object):
 # TODO : process requests asycnhronously in a seperate queue thread
 class AnnikkiClient(HTTPClient):
     def __init__(self, annikki, config):
-        HTTPClient.__init__(self, HTTPConnection(HOST, PORT))
+        def connection_factory():
+            return HTTPConnection(HOST, PORT)
+        HTTPClient.__init__(self, connection_factory)
         self.config = config
         self.annikki = annikki
         self.initialized()

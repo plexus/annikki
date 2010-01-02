@@ -1,6 +1,7 @@
 <x xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" py:strip="">
 
   <head py:match="head">
+    <meta charset="UTF-8" />
     <title py:with="title = list(select('title/text()'))">
       <py:if test="title">${title} |</py:if>Annikki.org
     </title>

@@ -7,7 +7,11 @@ from formencode.validators import UnicodeString, Email, FieldsMatch
 
 log = logging.getLogger(__name__)
 
+
 class SignUpForm(formencode.Schema):
+    """
+    Provides the validations for the user sign up form.
+    """
     username = formencode.compound.All(validators.Regex(regex='^[a-zA-Z][-_a-zA-Z1-9]+$'),
                                        UnicodeString(not_empty = True, min=4))
     email = Email(not_empty = True)
@@ -16,32 +20,45 @@ class SignUpForm(formencode.Schema):
 
     chained_validators = [FieldsMatch('password', 'confirm')]
 
+
+
 class UserController(BaseController):
+    
+    def signup(self):
+        if request.method != 'POST':
+            return render("user/signup.html")
+    
+        try:
+            post = SignUpForm(filter_extra_fields = True).to_python(request.POST)
+        except formencode.Invalid, e:
+            return render("user/signup.html", form_data=request.POST, form_errors=e.error_dict)
+    
+        users=request.environ['authkit.users']
+        
+        # create user is picky about the dict it gets
+        del post['confirm']
+    
+        try:
+            users.create_user(**post)
+        except FormError, e:
+            return render("user/signup.html", form_data=request.POST, form_errors=e.error_dict)
+        s.commit()
+        
+        # Sign in so the cookie auth handler will send back the right cookie
+        request.environ["REMOTE_USER"] = post['username']
+        request.environ['paste.auth_tkt.set_user'](userid=request.environ['REMOTE_USER']) # , user_data=self.user_data(state))
+    
+        h.flash("Welcome to Annikki, %(username)s!" % post)
+    
+        redirect(url(controller='main'))
 
-  def signup(self):
-    if request.method != 'POST':
-        return render("signup.html")
-    
-    try:
-        post = SignUpForm(filter_extra_fields = True).to_python(request.POST)
-    except formencode.Invalid, e:
-        return render("signup.html", form_data=request.POST, form_errors=e.error_dict)
-    
-    users=request.environ['authkit.users']
 
-    # create user is picky about the dict it gets
-    del post['confirm']
-    
-    try:
-        users.create_user(**post)
-    except FormError, e:
-        return render("signup.html", form_data=request.POST, form_errors=e.error_dict)
-    s.commit()
-    
-    # Sign in so the cookie auth handler will send back the right cookie
-    request.environ["REMOTE_USER"] = post['username']
-    request.environ['paste.auth_tkt.set_user'](userid=request.environ['REMOTE_USER']) # , user_data=self.user_data(state))
-    
-    h.flash("Welcome to Annikki, %(username)s!" % post)
-    
-    redirect(url(controller='main'))
+    def profile(self, **kw):
+        kw.update(request.GET)
+        user = kw['user']
+
+        if user == None:
+            redirect(url(controller='main'))
+            
+        u = s.query(User).filter(User.username == user).one()
+        return render("user/profile.html", extra_vars={'user': u})

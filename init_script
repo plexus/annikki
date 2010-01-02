@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set +e
+umask 077
+
+USER=annikki
+export HOME=/home/$USER
+APP_NAME=annikki
+APP_DIR=$HOME/annikki
+
+LOG_DIR=$APP_DIR/logs
+PASTER=$HOME/python/bin/paster
+
+SELF=$(cd $(dirname $0); pwd -P)/$(basename $0)
+
+cd $APP_DIR
+
+case "$1" in
+  'start')
+    su $USER -c "$PASTER serve $APP_DIR/$APP_NAME.ini --daemon --pid-file=$APP_DIR/paster.pid --log-file=$LOG_DIR/paster.log"
+    ;;
+
+  'stop')
+    su $USER -c "$PASTER serve $APP_DIR/$APP_NAME.ini --daemon --pid-file=$APP_DIR/paster.pid --log-file=$LOG_DIR/paster.log --stop-daemon"
+    ;;
+
+  'restart')
+    su $USER -c "$PASTER serve $APP_DIR/$APP_NAME.ini --daemon --pid-file=$APP_DIR/paster.pid --log-file=$LOG_DIR/paster.log restart"
+    ;;
+
+  *)
+    echo "Usage: $SELF start|stop|restart"
+    exit 1
+    ;;
+esac
+
+

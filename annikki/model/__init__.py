@@ -40,7 +40,7 @@ class Deck(Base):
     __tablename__ = "deck"
 
     id = Column(Integer, primary_key = True)
-    name = Column(String)
+    name = Column(String(255))
     user_id = Column(Integer, ForeignKey('users.uid'))
     user = relation((lambda: annikki.model.User), backref=backref('deck', order_by=name))
 
@@ -63,8 +63,8 @@ class Card(Base):
 
     id = Column(Integer, primary_key = True)
     user_card_id = Column(Integer) #id in the user's db
-    question = Column(String)
-    answer = Column(String)
+    question = Column(String(1024))
+    answer = Column(String(1024))
     user_id = Column(Integer, ForeignKey('users.uid'))
     user = relation((lambda: annikki.model.User), backref=backref('card'))
     deck_id = Column(Integer, ForeignKey('deck.id'))
